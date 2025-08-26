@@ -1,6 +1,6 @@
 import NotesClient from "./Notes.client";
-import { fetchNotes } from "@/lib/api";
-import type { NoteSearchResponse } from "@/lib/api";
+import { fetchNotes } from "@/lib/api/serverApi";
+import type { NoteSearchResponse } from "@/lib/api/serverApi";
 import { Metadata } from "next";
 
 type Props = {

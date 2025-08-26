@@ -5,14 +5,13 @@ import { useState, useEffect, useRef } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import Link from "next/link";
-import { fetchNotes } from "@/lib/api";
+import { fetchNotes } from "@/lib/api/serverApi";
 import { showErrorToast } from "@/components/ShowErrorToast/ShowErrorToast";
-import { useNoteDraftStore } from "@/lib/store/noteStore";
 
 import NoteList from "@/components/NoteList/NoteList";
 import Pagination from "@/components/Pagination/Pagination";
 import SearchBox from "@/components/SearchBox/SearchBox";
-import type { NoteSearchResponse } from "@/lib/api";
+import type { NoteSearchResponse } from "@/lib/api/serverApi";
 import Loader from "@/components/Loader/Loader";
 
 type NoteClientProps = {
