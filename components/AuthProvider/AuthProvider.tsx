@@ -1,6 +1,7 @@
 "use client";
 
-import { checkSession, getMe } from "../../lib/api/clientsApi";
+import { checkServerSession } from "@/lib/api/clientsApi";
+import { getMe } from "../../lib/api/clientsApi";
 import { useAuthStore } from "../../lib/store/authStore";
 import { useEffect } from "react";
 
@@ -16,8 +17,7 @@ export default function AuthProvider({ children }: Props) {
 
   useEffect(() => {
     const fetchUser = async () => {
-      // Перевіряємо сесію
-      const isAuthenticated = await checkSession();
+      const isAuthenticated = await checkServerSession();
       if (isAuthenticated) {
         // Якщо сесія валідна — отримуємо користувача
         const user = await getMe();

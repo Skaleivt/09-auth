@@ -1,12 +1,22 @@
-import React from "react";
-// import css from "./Layout.module.css";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   children: React.ReactNode;
 };
 
-const NotesLayout = ({ children }: Props) => {
-  return <>{children}</>;
-};
+export default function PublicLayout({ children }: Props) {
+  const [loading, setLoading] = useState(true);
 
-export default NotesLayout;
+  const router = useRouter();
+
+  useEffect(() => {
+    // refresh викличе перезавантаження даних
+    router.refresh();
+    setLoading(false);
+  }, [router]);
+
+  return <>{loading ? <div>Loading...</div> : children}</>;
+}

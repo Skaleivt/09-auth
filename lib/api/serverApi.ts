@@ -1,5 +1,7 @@
 import { NewNote, Note } from "@/types/note";
 import { nextServer } from "./api";
+import { User } from "@/types/user";
+// import { cookies } from "next/headers";
 
 export interface NoteSearchResponse {
   notes: Note[];
@@ -7,7 +9,13 @@ export interface NoteSearchResponse {
   page: number;
   perPage: number;
 }
-// const token = process.env.NEXT_PUBLIC_API_URL;
+
+// async function getAuthHeaders() {
+//   const cookieStore = await cookies();
+//   return {
+//     Cookie: cookieStore.toString(),
+//   };
+// }
 
 export async function fetchNotes({
   searchQuery,
@@ -20,7 +28,7 @@ export async function fetchNotes({
 }): Promise<NoteSearchResponse> {
   const response = await nextServer.get<NoteSearchResponse>(`/notes`, {
     params: {
-      ...(searchQuery && { search: searchQuery }),
+      ...(searchQuery && { searchQuery: searchQuery }),
       ...(tag && tag !== "All" && { tag }),
       perPage: 9,
       page,
@@ -49,3 +57,8 @@ export async function fetchNoteById(id: string) {
 
   return response.data;
 }
+
+export const getServerMe = async (): Promise<User> => {
+  const { data } = await nextServer.get("/auth/me");
+  return data;
+};

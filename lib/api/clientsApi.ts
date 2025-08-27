@@ -5,9 +5,6 @@ export type RegisterRequest = {
   email: string;
   password: string;
 };
-type CheckSessionRequest = {
-  success: boolean;
-};
 
 export async function registerUser(data: RegisterRequest): Promise<User> {
   const response = await nextServer.post(`/auth/register`, data);
@@ -24,13 +21,19 @@ export async function loginUser(data: RegisterRequest): Promise<User> {
 }
 export const getMe = async () => {
   const { data } = await nextServer.get<User>("/users/me");
+  console.log(data);
   return data;
 };
 
-export const checkSession = async () => {
-  const res = await nextServer.get<CheckSessionRequest>("/auth/session");
-  return res.data.success;
-};
 export const logout = async (): Promise<void> => {
   await nextServer.post("/auth/logout");
+};
+
+type CheckSessionResponse = {
+  success: boolean;
+};
+
+export const checkServerSession = async () => {
+  const res = await nextServer.get<CheckSessionResponse>("/auth/session");
+  return res;
 };
