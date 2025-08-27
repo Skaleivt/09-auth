@@ -1,5 +1,5 @@
 // import ProfilePage from "@/components/ProfilePage/ProfilePage";
-import { getServerMe } from "@/lib/api/serverApi";
+import { getMeServer } from "@/lib/api/serverApi";
 import { Metadata } from "next";
 import css from "../../../components/ProfilePage/ProfilePage.module.css";
 
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export default async function userProfile() {
-  const user = await getServerMe();
+  const user = await getMeServer();
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>

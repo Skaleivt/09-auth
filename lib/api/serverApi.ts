@@ -1,7 +1,8 @@
-import { NewNote, Note } from "@/types/note";
+import { Note } from "@/types/note";
 import { nextServer } from "./api";
 import { User } from "@/types/user";
-// import { cookies } from "next/headers";
+import { cookies } from "next/headers";
+import { AxiosResponse } from "axios";
 
 export interface NoteSearchResponse {
   notes: Note[];
@@ -9,15 +10,16 @@ export interface NoteSearchResponse {
   page: number;
   perPage: number;
 }
+async function getServerCookies(): Promise<string> {
+  const cookieStore = await cookies();
 
-// async function getAuthHeaders() {
-//   const cookieStore = await cookies();
-//   return {
-//     Cookie: cookieStore.toString(),
-//   };
-// }
+  return cookieStore
+    .getAll()
+    .map(({ name, value }) => `${name}=${value}`)
+    .join("; ");
+}
 
-export async function fetchNotes({
+export async function fetchNotesServer({
   searchQuery,
   tag,
   page,
@@ -33,6 +35,9 @@ export async function fetchNotes({
       perPage: 9,
       page,
     },
+    headers: {
+      Cookie: await getServerCookies(),
+    },
   });
 
   return {
@@ -40,25 +45,36 @@ export async function fetchNotes({
   };
 }
 
-// Створення нової нотатки
-export async function createNote(noteData: NewNote): Promise<Note> {
-  const response = await nextServer.post<Note>(`/notes`, noteData);
-  return response.data;
-}
+export const fetchNoteByIdServer = async (id: string): Promise<Note> => {
+  const res = await nextServer.get<Note>(`/notes/${id}`, {
+    headers: {
+      Cookie: await getServerCookies(),
+    },
+  });
 
-// Видалення нотатки
-export async function deleteNote(id: string): Promise<Note> {
-  const response = await nextServer.delete<Note>(`/notes/${id}`);
-  return response.data;
-}
-// Деталі нотатки
-export async function fetchNoteById(id: string) {
-  const response = await nextServer.get<Note>(`/notes/${id}`);
+  return res.data;
+};
 
-  return response.data;
-}
+export const checkServerSession = async (): Promise<AxiosResponse> => {
+  const res = await nextServer.get("/auth/session", {
+    headers: {
+      Cookie: await getServerCookies(),
+    },
+  });
 
-export const getServerMe = async (): Promise<User> => {
-  const { data } = await nextServer.get("/auth/me");
-  return data;
+  return res;
+};
+
+export const getMeServer = async (): Promise<User | null> => {
+  try {
+    const res = await nextServer.get<User>("/users/me", {
+      headers: {
+        Cookie: await getServerCookies(),
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Failed to fetch user on server:", error);
+    return null;
+  }
 };

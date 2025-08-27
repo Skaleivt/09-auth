@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { showErrorToast } from "@/components/ShowErrorToast/ShowErrorToast";
 import Modal from "@/components/Modal/Modal";
 import Loader from "@/components/Loader/Loader";
-import { fetchNoteById } from "@/lib/api/serverApi";
+import { fetchNoteById } from "@/lib/api/clientsApi";
 import css from "./NotePreview.module.css";
 
 type NotePreviewProps = {
