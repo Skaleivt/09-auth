@@ -3,11 +3,11 @@
 import css from "./SignInPage.module.css";
 import { loginUser, RegisterRequest } from "@/lib/api/clientsApi";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ApiError } from "next/dist/server/api-utils";
 import { useAuthStore } from "@/lib/store/authStore";
 
-export default function SingIn() {
+export default function SignIn() {
   const router = useRouter();
   const [error, setError] = useState("");
   const setUser = useAuthStore((state) => state.setUser);
@@ -31,6 +31,15 @@ export default function SingIn() {
       setError((error as ApiError).message ?? "Oops... some error");
     }
   };
+  useEffect(() => {
+    document.title = `Sign-in | NoteHub`;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute(
+        "content",
+        `Sign in to your NoteHub account. Enter your email and password to log in.`
+      );
+  });
 
   return (
     <main className={css.mainContent}>

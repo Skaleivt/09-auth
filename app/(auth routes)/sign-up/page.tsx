@@ -2,7 +2,7 @@
 import css from "./SignUpPage.module.css";
 import { RegisterRequest, registerUser } from "@/lib/api/clientsApi";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ApiError } from "next/dist/server/api-utils";
 import { useAuthStore } from "@/lib/store/authStore";
 
@@ -31,6 +31,16 @@ export default function SingUp() {
       setError((error as ApiError).message ?? "Oops... some error");
     }
   };
+
+  useEffect(() => {
+    document.title = `Sign-up | NoteHub`;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute(
+        "content",
+        `Create a new account on NoteHub. Sign up with your email and password to get started.`
+      );
+  });
 
   return (
     <main className={css.mainContent}>

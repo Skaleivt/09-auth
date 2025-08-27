@@ -19,6 +19,13 @@ export default function EditProfilePage() {
       try {
         const data = await getMe();
         setLocalUser(data);
+        document.title = `Edit Profile | ${data.username || "User"}`;
+        document
+          .querySelector('meta[name="description"]')
+          ?.setAttribute(
+            "content",
+            `Editing a user profile ${data.username || ""}`
+          );
       } catch {
         showErrorToast("Failed to load user data");
       }
@@ -46,6 +53,7 @@ export default function EditProfilePage() {
       showErrorToast((error as ApiError).message ?? "Oops... some error");
     }
   };
+  const close = () => router.back();
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>
@@ -78,7 +86,7 @@ export default function EditProfilePage() {
             <button type="submit" className={css.saveButton}>
               Save
             </button>
-            <button type="button" className={css.cancelButton}>
+            <button onClick={close} type="button" className={css.cancelButton}>
               Cancel
             </button>
           </div>
