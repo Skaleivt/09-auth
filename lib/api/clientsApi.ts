@@ -10,6 +10,16 @@ export interface NoteSearchResponse {
   perPage: number;
 }
 
+export type RegisterRequest = {
+  email: string;
+  password: string;
+};
+
+export type EditRequest = {
+  email: string;
+  username: string;
+  avatar?: string;
+};
 // фільтрація
 export async function fetchNotes({
   searchQuery,
@@ -53,11 +63,6 @@ export async function deleteNote(id: string): Promise<Note> {
   return response.data;
 }
 
-export type RegisterRequest = {
-  email: string;
-  password: string;
-};
-
 export async function registerUser(data: RegisterRequest): Promise<User> {
   const response = await nextServer.post(`/auth/register`, data);
   return {
@@ -73,7 +78,6 @@ export async function loginUser(data: RegisterRequest): Promise<User> {
 }
 export const getMe = async () => {
   const { data } = await nextServer.get<User>("/users/me");
-  console.log(data);
   return data;
 };
 export const checkSession = async (): Promise<boolean> => {
@@ -83,4 +87,9 @@ export const checkSession = async (): Promise<boolean> => {
 
 export const logout = async (): Promise<void> => {
   await nextServer.post("/auth/logout");
+};
+
+export const editProfile = async (data: EditRequest): Promise<EditRequest> => {
+  const res = await nextServer.patch("/users/me", data);
+  return res.data;
 };
