@@ -1,6 +1,6 @@
 "use client";
 import css from "./SignUpPage.module.css";
-import { RegisterRequest, registerUser } from "@/lib/api/clientsApi";
+import { RegisterRequest, registerUser } from "@/lib/api/clientApi";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ApiError } from "next/dist/server/api-utils";

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import css from "./EditProfilePage.module.css";
-import { editProfile, EditRequest, getMe } from "@/lib/api/clientsApi";
+import { editProfile, EditRequest, getMe } from "@/lib/api/clientApi";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
