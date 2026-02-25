@@ -35,7 +35,7 @@ export default function NotesClient({ initialData, tag }: NoteClientProps) {
   };
   const queryTag = tag === "All" ? undefined : tag;
 
-  const { data, isLoading, isSuccess, isError } = useQuery({
+  const { data, isLoading, isSuccess, isError, isFetching } = useQuery({
     queryKey: ["notes", searchQuery, tag, currentPage],
     queryFn: () =>
       fetchNotes({
@@ -44,7 +44,8 @@ export default function NotesClient({ initialData, tag }: NoteClientProps) {
         page: currentPage,
       }),
     placeholderData: keepPreviousData,
-    initialData: initialData,
+    initialData:
+      searchQuery === "" && currentPage === 1 ? initialData : undefined,
   });
 
   const totalPages = data?.totalPages || 0;
@@ -89,8 +90,7 @@ export default function NotesClient({ initialData, tag }: NoteClientProps) {
           Create note
         </Link>
       </header>
-      {loadingContent}
-      {successContent}
+      {isFetching ? loadingContent : successContent}
     </div>
   );
 }

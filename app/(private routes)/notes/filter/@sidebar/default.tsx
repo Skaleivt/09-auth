@@ -6,7 +6,10 @@ const tags = ["All", "Work", "Personal", "Meeting", "Shopping", "Todo"];
 export default function SidebarNotes() {
   return (
     <>
-      <Link className={css.menuLink} href="/notes/action/create">
+      <Link
+        className={`${css.menuLink} ${css.menuLinkCreate}`}
+        href="/notes/action/create"
+      >
         Create note
       </Link>
       <ul className={css.menuList}>

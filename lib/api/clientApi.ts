@@ -38,6 +38,9 @@ export async function fetchNotes({
       page,
     },
   });
+  console.log("searchQuery", searchQuery, "tag", tag, "page", page);
+
+  console.log("fetchNotes", response);
 
   return {
     ...response.data,
